@@ -29,12 +29,21 @@
                         <a class="nav-link" href="#">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Command Sets</a>
+                        <a class="nav-link" href="/command-sets/">Command Sets</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Projects</a>
                     </li>
                 </ul>
+                {% if user_id %}
+                <div class="nav-item ms-auto">
+                    <a class="nav-link" href="/logout/">Logout</a>
+                </div>
+                {% else %}
+                <div class="nav-item ms-auto">
+                    <a class="nav-link" href="/login/">Login</a>
+                </div>
+                {% endif %}
             </div>
         </div>
     </nav>

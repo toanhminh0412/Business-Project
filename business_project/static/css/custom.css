@@ -27,17 +27,20 @@ body {
     margin-right: 20px;
 }
 
-.navbar-nav .nav-link{
+.navbar-nav .nav-link,
+.nav-item .nav-link{
     color: #ffffff;
     font-weight: 200;
     transition-duration: 0.5s;
 }
 
-.navbar-nav .nav-link:hover {
+.navbar-nav .nav-link:hover,
+.nav-item .nav-link:hover{
     font-weight: 400;
 }
 
 /*** Custom ***/
+/* Container */
 .item-container {
     margin-top: 10px;
     background-color: white;
@@ -49,11 +52,26 @@ body {
     cursor: default;
 }
 
+.item-container-heading {
+    font-size: 1.5vw;
+    font-weight: 500;
+}
+
 .item-container:hover {
     background-color: rgb(241 245 249);
     box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
 }
 
+/* New page */
 .page {
     margin-top: 100px;
+}
+
+/* Spacing */
+.mt-6 {
+    margin-top: 4rem;
+}
+
+.mt-7 {
+    margin-top: 5rem;
 }

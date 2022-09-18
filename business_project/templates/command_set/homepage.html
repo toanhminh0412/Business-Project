@@ -2,7 +2,11 @@
 {% block title %}Command Set{% endblock %}
 {% block content %}
 <div class="row">
-    <div class="col-lg-3"></div>
+    <div class="col-xl-3 d-none d-xl-block">
+        <div class="item-container mt-6">
+            <h2 class="item-container-heading">Commands added by you</h2>
+        </div>
+    </div>
     <div class="col-lg-6 col-md-8 col-11 mx-auto">
         {% if message %}
             <div class="alert alert-danger" role="alert">

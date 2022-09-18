@@ -49,8 +49,10 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',    
 ]
+
+# Add to MIDDLEWARE if needed: 'middleware.authenticate_middleware.AuthenticateMiddleware',
 
 ROOT_URLCONF = 'business_project.urls'
 
@@ -65,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'business_project.custom_contexts.get_user'
             ],
         },
     },

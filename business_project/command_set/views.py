@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from django.views.generic.list import ListView
 from .models import CommandSet, WordIndex
+from django.contrib.auth.models import User
 
 # Search engine algorithm for command set
 def search_algorithm(search_input):
@@ -28,7 +28,10 @@ def search_algorithm(search_input):
     # Sort in descending order the points for each command set
     command_point = sorted(command_point, key=lambda x: command_point[x], reverse=True)
     return command_point
-    
+
+# Get command sets that are added by the current users
+def command_set_by_curuser(user_id):
+    return user_id
 
 # Create your views here.
 class HomePageView(ListView):
@@ -36,6 +39,7 @@ class HomePageView(ListView):
     template_name = "command_set/homepage.html"
     context_object_name = "command_sets"
 
+    # Handle search request
     def post(self, request):
         search_input = request.POST['search-input']
         if search_input != "":
@@ -48,6 +52,6 @@ class HomePageView(ListView):
             return render(request, self.template_name, context)
         else:
             context = {}
-            context['command_sets'] = CommandSet.objects.all()
+            context = self.get_context_data()
             context['message'] = 'Search bar cannot be empty'
             return render(request, self.template_name, context)

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 # A technology tool (Git, Kubernestes, Docker, etc)
@@ -21,6 +22,7 @@ class CommandSet(models.Model):
     tool = models.ManyToManyField(Tool)
     upvote_num = models.IntegerField(default=0)
     downvote_num = models.IntegerField(default=0)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     # For each word in the command set, there is a corresponding points of appearance for that word
     # Save the points for all words, which is later used in the search engine
