@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}Command Set{% endblock %}
 {% block content %}
-<div class="mt-5 row">
+<div class="row">
     <div class="col-lg-3"></div>
     <div class="col-lg-6 col-md-8 col-11 mx-auto">
-        <h1>Search something ...</h1>
-        <form class="d-flex flex-row">
-            <input type="input" class="form-control fs-5 p-2" placeholder="Type a command or a task">
+        {% if message %}
+            <div class="alert alert-danger" role="alert">
+                {{message}}
+            </div>
+        {% endif %}
+        <h1 class="mt-2">Search something ...</h1>
+        <form class="search-bar d-flex flex-row" action="/command-sets/" method="post">
+            {% csrf_token %}
+            <input type="input" class="form-control fs-5 p-2" name="search-input" placeholder="Type a command or a task">
             <button type="submit" class="btn btn-primary px-4 fs-5">Search</button>
         </form>
 
@@ -25,4 +31,8 @@
     </div>
     <div class="col-lg-3 col-md-3"></div>
 </div>
+{% endblock %}
+{% block script %}
+    {% load static %}
+    <script src="{% static 'js/command_set/home.js'%}"></script>
 {% endblock %}

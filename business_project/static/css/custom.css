@@ -11,6 +11,13 @@ body {
 }
 
 /*** Navbar Override ***/
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
 .navbar-nav {
     margin-left: 50px;
 }
@@ -45,4 +52,8 @@ body {
 .item-container:hover {
     background-color: rgb(241 245 249);
     box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+}
+
+.page {
+    margin-top: 100px;
 }
