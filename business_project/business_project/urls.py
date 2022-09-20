@@ -19,7 +19,7 @@ from . import auth_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('command-sets/', include('command_set.urls')),
+    path('', include('command_set.urls')),
     path('projects/', include('personal_projects.urls')),
     path('login/', auth_view.LoginView.as_view(), name='login'),
     path('signup/', auth_view.SignupView.as_view(), name='signup'),

@@ -16,6 +16,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 2000;
 }
 
 .navbar-nav {
@@ -41,7 +42,7 @@ body {
 
 /*** Custom ***/
 /* Container */
-.item-container {
+.block-container {
     margin-top: 10px;
     background-color: white;
     border-radius: 10px;
@@ -52,6 +53,11 @@ body {
     cursor: default;
 }
 
+.block-container-wrapper {
+    text-decoration: none;
+    color: #000;
+}
+
 .item-container-heading {
     font-size: 1.5vw;
     font-weight: 500;
@@ -60,6 +66,19 @@ body {
 .item-container:hover {
     background-color: rgb(241 245 249);
     box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+}
+
+.code-block {
+    padding: 10px 20px 10px 20px;
+    background-color: rgb(226 232 240);
+    border-radius: 5px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    border: 1px solid rgb(226 232 240);
+    margin-top: 15px;
+}
+
+.btn-container {
+    width: fit-content;
 }
 
 /* New page */
@@ -74,4 +93,13 @@ body {
 
 .mt-7 {
     margin-top: 5rem;
+}
+
+/* Buttons */
+.add-commands-btn {
+    text-decoration: none;
+}
+
+.add-commands-btn:hover {
+    text-decoration: underline;
 }

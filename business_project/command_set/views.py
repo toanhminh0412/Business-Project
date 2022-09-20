@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
-from .models import CommandSet, WordIndex
+from django.views.generic.detail import DetailView
+from django.views.generic.base import TemplateView
+from .models import CommandSet, WordIndex, Tool
 from django.contrib.auth.models import User
+
+from forms import CommandSetForm
 
 # Search engine algorithm for command set
 def search_algorithm(search_input):
@@ -33,7 +37,7 @@ def search_algorithm(search_input):
 def command_set_by_curuser(user_id):
     return user_id
 
-# Create your views here.
+# Users can search for command sets on this page
 class HomePageView(ListView):
     model = CommandSet
     template_name = "command_set/homepage.html"
@@ -55,3 +59,31 @@ class HomePageView(ListView):
             context = self.get_context_data()
             context['message'] = 'Search bar cannot be empty'
             return render(request, self.template_name, context)
+
+# Users can create new command sets on this page
+class CommandSetAddView(TemplateView):
+    template_name = "command_set/add_page.html"
+
+    def post(self,request):
+        commands_form = CommandSetForm(request.POST)
+        if commands_form.is_valid():
+            commands_data = commands_form.cleaned_data
+            new_command_set = CommandSet.objects.create(title=commands_data['title'], commands=commands_data['commands'], description=commands_data['description'], created_by=User.objects.get(id=request.session.get('user_id')))
+            for tool in commands_data['tool']:
+                new_command_set.tool.add(tool)
+            new_command_set.save()
+            return redirect("/")
+        else: 
+            return render(request, self.template_name, {'all_tools': Tool.objects.all(), 'message': 'Please fill out the from properly'})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_tools'] = Tool.objects.all()
+        return context
+
+# Users view a single command set on this page
+class CommandSetDetailView(DetailView):
+    model = CommandSet
+    pk_url_kwarg = 'commandset_id'
+    template_name = 'command_set/detail_page.html'
+    context_object_name = 'command_set'

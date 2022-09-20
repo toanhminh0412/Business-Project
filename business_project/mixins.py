@@ -6,6 +6,6 @@ from django.http import HttpResponseRedirect
 class AlreadyLoginMixin:
     def dispatch(self, request, *args, **kwargs):
         if request.session.get('user_id', None):
-            return HttpResponseRedirect("/command-sets/")
+            return HttpResponseRedirect("/")
         else:
             return super().dispatch(request, *args, **kwargs)

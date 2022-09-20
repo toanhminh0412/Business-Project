@@ -21,8 +21,8 @@ class CommandSet(models.Model):
     description = models.CharField(max_length=500, null=True, blank=True)
     tool = models.ManyToManyField(Tool)
     upvote_num = models.IntegerField(default=0)
-    downvote_num = models.IntegerField(default=0)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+
 
     # For each word in the command set, there is a corresponding points of appearance for that word
     # Save the points for all words, which is later used in the search engine
@@ -49,15 +49,32 @@ class CommandSet(models.Model):
                 word_index.points = word_index.points + 1
                 word_index.save()
 
+    # Upvote a command set
+    def upvote(self):
+        print("Upvote called")
+        self.upvote_num = self.upvote_num + 1
+        # self.save()
+
+    # Downvote a command set
+    def downvote(self):
+        self.upvote_num = self.upvote_num - 1
+        # self.save()
+
     def save(self, *args, **kwargs):
         super(CommandSet, self).save(*args, **kwargs)
         self.add_word_index()
 
     # Display commands to user interface
     def display_commands(self):
-        return self.commands.split("$")[1:]
-        
+        return self.commands.split("$ ")[1:]
 
+    # Display tools that are used by the command set
+    def display_tools(self):
+        tools_str = ""
+        for tool in self.tool.all():
+            tools_str = tools_str + tool.title + ", "
+        return tools_str[:-2]
+        
     # String representation
     def __str__(self):
         return self.title

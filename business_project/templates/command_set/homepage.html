@@ -3,9 +3,11 @@
 {% block content %}
 <div class="row">
     <div class="col-xl-3 d-none d-xl-block">
+        <!--
         <div class="item-container mt-6">
             <h2 class="item-container-heading">Commands added by you</h2>
         </div>
+        -->
     </div>
     <div class="col-lg-6 col-md-8 col-11 mx-auto">
         {% if message %}
@@ -13,8 +15,11 @@
                 {{message}}
             </div>
         {% endif %}
-        <h1 class="mt-2">Search something ...</h1>
-        <form class="search-bar d-flex flex-row" action="/command-sets/" method="post">
+        <div class="d-flex flex-row">
+            <h1 class="mt-2">Search something ...</h1>
+            <a class="add-commands-btn ms-auto mt-2" href="/add_commands/">Add command set</a>
+        </div>
+        <form class="search-bar d-flex flex-row" action="/" method="post">
             {% csrf_token %}
             <input type="input" class="form-control fs-5 p-2" name="search-input" placeholder="Type a command or a task">
             <button type="submit" class="btn btn-primary px-4 fs-5">Search</button>
@@ -22,14 +27,16 @@
 
         <div class="mt-1">
             {% for cs in command_sets %}
-                <div class="item-container">
-                    <div class="fs-5 fw-bolder">{{cs.title}}</div>
-                    <div class="mt-2">
-                        {% for command in cs.display_commands %}
-                            <div>$ {{command}}</div>
-                        {% endfor %}
+                <a class="block-container-wrapper" href="{{cs.id}}/">
+                    <div class="block-container item-container">
+                        <div class="fs-5 fw-bolder">{{cs.title}}</div>
+                        <div class="mt-2">
+                            {% for command in cs.display_commands %}
+                                <div>$ {{command}}</div>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
+                </a>
             {% endfor %}
         </div>
     </div>
