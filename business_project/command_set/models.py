@@ -48,17 +48,16 @@ class CommandSet(models.Model):
                 word_index = word_index[0]
                 word_index.points = word_index.points + 1
                 word_index.save()
-
+    
     # Upvote a command set
     def upvote(self):
-        print("Upvote called")
         self.upvote_num = self.upvote_num + 1
-        # self.save()
+        self.save()
 
     # Downvote a command set
     def downvote(self):
         self.upvote_num = self.upvote_num - 1
-        # self.save()
+        self.save()
 
     def save(self, *args, **kwargs):
         super(CommandSet, self).save(*args, **kwargs)
@@ -82,6 +81,33 @@ class CommandSet(models.Model):
     class Meta:
         ordering = ['title']
         db_table = "command_set"
+
+# Users can upvote a commamd set if they like it
+class Upvote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    command_set = models.ForeignKey(CommandSet, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['user']
+        db_table = "command_set_upvote"
+
+    def save(self, *args, **kwargs):
+        super(Upvote, self).save(*args, **kwargs)
+        self.command_set.upvote()
+
+
+# Users can downvote a commamd set if they like it
+class Downvote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    command_set = models.ForeignKey(CommandSet, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['user']
+        db_table = "command_set_downvote"
+
+    def save(self, *args, **kwargs):
+        super(Downvote, self).save(*args, **kwargs)
+        self.command_set.downvote()
 
 # Word index table for search engine optimization
 class WordIndex(models.Model):

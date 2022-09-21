@@ -9,4 +9,3 @@ Command sets:
 * Need to fix textarea for commands later
 * Might want to add visibility for each command set
 * Need to fix searching algorithm
-* Fix upvote buttons

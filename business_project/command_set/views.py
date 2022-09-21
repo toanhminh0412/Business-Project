@@ -2,10 +2,42 @@ from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.base import TemplateView
-from .models import CommandSet, WordIndex, Tool
+from .models import CommandSet, WordIndex, Tool, Upvote, Downvote
 from django.contrib.auth.models import User
 
 from forms import CommandSetForm
+
+# Upvote a command set
+def upvote_view(request, commandset_id):
+    command_set = CommandSet.objects.filter(id=commandset_id)[0]
+    user = User.objects.filter(id=request.session.get('user_id', None))[0]
+    upvotes = Upvote.objects.filter(user=user, command_set=command_set)
+    downvotes = Downvote.objects.filter(user=user, command_set=command_set)
+    
+    if len(upvotes) == 0:
+        new_upvote = Upvote.objects.create(user=user, command_set=command_set)
+        for downvote in downvotes:
+            command_set.upvote_num = command_set.upvote_num + 1
+            downvote.delete()
+        command_set.save()
+    
+    return redirect(f"/{commandset_id}/")
+
+# Downvote a command set
+def downvote_view(request, commandset_id):
+    command_set = CommandSet.objects.filter(id=commandset_id)[0]
+    user = User.objects.filter(id=request.session.get('user_id', None))[0]
+    upvotes = Upvote.objects.filter(user=user, command_set=command_set)
+    downvotes = Downvote.objects.filter(user=user, command_set=command_set)
+    
+    if len(downvotes) == 0:
+        new_downvote = Downvote.objects.create(user=user, command_set=command_set)
+        for upvote in upvotes:
+            command_set.upvote_num = command_set.upvote_num - 1
+            upvote.delete()
+        command_set.save()
+    
+    return redirect(f"/{commandset_id}/")
 
 # Search engine algorithm for command set
 def search_algorithm(search_input):
@@ -87,3 +119,15 @@ class CommandSetDetailView(DetailView):
     pk_url_kwarg = 'commandset_id'
     template_name = 'command_set/detail_page.html'
     context_object_name = 'command_set'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        command_set = self.get_object()
+        user = User.objects.filter(id=int(self.request.session.get(('user_id'), None)))[0]
+        upvotes = Upvote.objects.filter(user=user, command_set=command_set)
+        downvotes = Downvote.objects.filter(user=user, command_set=command_set)
+        if len(upvotes) > 0:
+            context['upvote'] = True
+        if len(downvotes) > 0:
+            context['downvote'] = True
+        return context
