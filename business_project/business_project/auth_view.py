@@ -4,6 +4,7 @@ from django.views.generic.base import TemplateView
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from command_set.models import UserProfile
 from forms import LoginForm, SignupForm
 from mixins import AlreadyLoginMixin
 
@@ -57,6 +58,7 @@ class SignupView(AlreadyLoginMixin, TemplateView):
                 
                 # Create a new user and login
                 user = User.objects.create(username=signup_data['username'], email=signup_data['email'], password=signup_data['password'])
+                UserProfile.objects.create(user=user)
                 login(request, user)
                 request.session['user_id'] = user.id
                 return HttpResponseRedirect("/")

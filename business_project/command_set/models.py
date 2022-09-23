@@ -23,7 +23,6 @@ class CommandSet(models.Model):
     upvote_num = models.IntegerField(default=0)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
-
     # For each word in the command set, there is a corresponding points of appearance for that word
     # Save the points for all words, which is later used in the search engine
     def add_word_index(self):
@@ -81,6 +80,15 @@ class CommandSet(models.Model):
     class Meta:
         ordering = ['title']
         db_table = "command_set"
+
+# Basically an User that has more abilities
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    saved_command_set = models.ManyToManyField(CommandSet, null=True, blank=True)
+
+    class Meta:
+        ordering = ['id']
+        db_table = "user_profile"
 
 # Users can upvote a commamd set if they like it
 class Upvote(models.Model):

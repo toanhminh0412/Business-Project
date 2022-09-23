@@ -41,7 +41,7 @@ body {
 }
 
 /*** Custom ***/
-/* Container */
+/* General container */
 .block-container {
     margin-top: 10px;
     background-color: white;
@@ -81,6 +81,43 @@ body {
     width: fit-content;
 }
 
+/* Dashboard container */
+.dashboard-container {
+    margin-top: 10px;
+    background-color: rgb(241 245 249);
+    border-radius: 10px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    border: 1px solid rgb(226 232 240);
+    padding: 10px 20px 10px 20px;
+    transition-duration: 0.1s;
+    cursor: default;
+}
+
+.tool-container {
+    margin-top: 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    border: 1px solid rgb(226 232 240);
+    padding: 10px 20px 10px 20px;
+    transition-duration: 0.1s;
+    cursor: default;
+    width: 98%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.command-container {
+    background-color: rgb(209 250 229);
+    color: rgb(5 150 105);
+    padding: 15px 20px 15px 20px;
+}
+
+.command-container:hover {
+    background-color: rgb(236 253 245);
+    box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+}
+
 /* New page */
 .page {
     margin-top: 100px;
@@ -93,6 +130,19 @@ body {
 
 .mt-7 {
     margin-top: 5rem;
+}
+
+/* Sizing */
+.w-fit {
+    width: fit-content;
+}
+
+.w-95 {
+    width: 95%;
+}
+
+.w-90 {
+    width: 90%;
 }
 
 /* Buttons */

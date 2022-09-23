@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.base import TemplateView
-from .models import CommandSet, WordIndex, Tool, Upvote, Downvote
+from .models import CommandSet, UserProfile, WordIndex, Tool, Upvote, Downvote
 from django.contrib.auth.models import User
 
 from forms import CommandSetForm
+from mixins import LoginRequiredMixin
 
-# Upvote a command set
+# Invisible view: Upvote a command set
 def upvote_view(request, commandset_id):
     command_set = CommandSet.objects.filter(id=commandset_id)[0]
     user = User.objects.filter(id=request.session.get('user_id', None))[0]
@@ -23,7 +24,7 @@ def upvote_view(request, commandset_id):
     
     return redirect(f"/{commandset_id}/")
 
-# Downvote a command set
+# Invisible view: Downvote a command set
 def downvote_view(request, commandset_id):
     command_set = CommandSet.objects.filter(id=commandset_id)[0]
     user = User.objects.filter(id=request.session.get('user_id', None))[0]
@@ -37,6 +38,24 @@ def downvote_view(request, commandset_id):
             upvote.delete()
         command_set.save()
     
+    return redirect(f"/{commandset_id}/")
+
+# Invisible view: Save a command set
+def save_view(request, commandset_id):
+    command_set = CommandSet.objects.filter(id=commandset_id)[0]
+    user = User.objects.filter(id=request.session.get('user_id', None))[0]
+    user_profile = UserProfile.objects.filter(user=user)[0]
+    user_profile.saved_command_set.add(command_set)
+    user_profile.save()
+    return redirect(f"/{commandset_id}/")
+
+# Invisible view: Unsave a command set
+def unsave_view(request, commandset_id):
+    command_set = CommandSet.objects.filter(id=commandset_id)[0]
+    user = User.objects.filter(id=request.session.get('user_id', None))[0]
+    user_profile = UserProfile.objects.filter(user=user)[0]
+    user_profile.saved_command_set.remove(command_set)
+    user_profile.save()
     return redirect(f"/{commandset_id}/")
 
 # Search engine algorithm for command set
@@ -65,10 +84,6 @@ def search_algorithm(search_input):
     command_point = sorted(command_point, key=lambda x: command_point[x], reverse=True)
     return command_point
 
-# Get command sets that are added by the current users
-def command_set_by_curuser(user_id):
-    return user_id
-
 # Users can search for command sets on this page
 class HomePageView(ListView):
     model = CommandSet
@@ -93,7 +108,7 @@ class HomePageView(ListView):
             return render(request, self.template_name, context)
 
 # Users can create new command sets on this page
-class CommandSetAddView(TemplateView):
+class CommandSetAddView(LoginRequiredMixin, TemplateView):
     template_name = "command_set/add_page.html"
 
     def post(self,request):
@@ -122,12 +137,41 @@ class CommandSetDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Check and set context based on if user has upvoted or downvoted the command set
         command_set = self.get_object()
-        user = User.objects.filter(id=int(self.request.session.get(('user_id'), None)))[0]
+        user = User.objects.filter(id=int(self.request.session.get('user_id', None)))[0]
         upvotes = Upvote.objects.filter(user=user, command_set=command_set)
         downvotes = Downvote.objects.filter(user=user, command_set=command_set)
         if len(upvotes) > 0:
             context['upvote'] = True
         if len(downvotes) > 0:
             context['downvote'] = True
+        
+        # Check and set context based on if user has saved the command set
+        user_profile = UserProfile.objects.filter(user=user)[0]
+        if command_set in user_profile.saved_command_set.all():
+            context['user_saved'] = True
+
+        return context
+
+# Dashboard is where users can manage the application activity
+# such as viewing command sets added, saved and searched by them
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Get all command sets that were created by the current user
+        user = User.objects.filter(id=int(self.request.session.get("user_id", None)))[0]
+        created_commands = CommandSet.objects.filter(created_by=user) 
+        context['created_commands'] = created_commands
+        
+        # Get all tools that this user has created a command set for
+        created_tools = []
+        for command in created_commands:
+            for tool in command.tool.all():
+                if tool not in created_tools:
+                    created_tools.append(tool)
+        context['created_tools'] = created_tools
         return context

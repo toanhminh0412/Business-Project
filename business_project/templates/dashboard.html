@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Command Set{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 col-md-8 col-11 mx-auto">
+        <div class="d-flex flex-row">
+            <h1 class="mt-2">Search something ...</h1>
+            <a class="add-commands-btn ms-auto mt-2" href="/add_commands/">Add command set</a>
+        </div>
+        <form class="search-bar d-flex flex-row" action="/" method="post">
+            {% csrf_token %}
+            <input type="input" class="form-control fs-5 p-2" name="search-input" placeholder="Type a command or a task">
+            <button type="submit" class="btn btn-primary px-4 fs-5">Search</button>
+        </form>
+    </div>
+</div>
+<div class="row w-95 mx-auto mt-4">
+    <div class="col-lg-5 me-2 dashboard-container pb-3">
+        <div class="fs-3 fw-semibold">Created command sets</div>
+        <div>
+            {% for tool in created_tools %}
+                <div class="tool-container">
+                    <p class="fw-semibold">{{tool.title}}</p>
+                    {% for command_set in tool.commandset_set.all %}
+                        <a class="block-container-wrapper" href="/{{command_set.id}}/"><div class="tool-container command-container" role="alert">{{command_set.title}}</div></a>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="block-container">
+        <div class="fs-4 fw-semibold">Command set library</div>
+    </div>
+    <div class="block-container">
+        <div class="fs-4 fw-semibold">Search history</div>
+    </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}{% endblock %}
