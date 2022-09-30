@@ -139,6 +139,11 @@ class CommandSetDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         # Check and set context based on if user has upvoted or downvoted the command set
         command_set = self.get_object()
+
+        # Add one to number of times users view the command set
+        command_set.visited_num = command_set.visited_num + 1
+        command_set.save()
+
         user = User.objects.filter(id=int(self.request.session.get('user_id', None)))[0]
         upvotes = Upvote.objects.filter(user=user, command_set=command_set)
         downvotes = Downvote.objects.filter(user=user, command_set=command_set)
@@ -165,8 +170,13 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # Get all command sets that were created by the current user
         user = User.objects.filter(id=int(self.request.session.get("user_id", None)))[0]
         created_commands = CommandSet.objects.filter(created_by=user) 
+        # Sorted by last updated
         context['created_commands'] = created_commands
-        
+        # Sorted by popularity
+        context['created_commands_sorted_by_popularity'] = sorted(created_commands, key=lambda x: x.visited_num, reverse=True)
+        # Sorted by number of upvotes
+        context['created_commands_sorted_by_upvote'] = sorted(created_commands, key=lambda x: x.upvote_num, reverse=True)
+
         # Get all tools that this user has created a command set for
         created_tools = []
         for command in created_commands:
@@ -178,7 +188,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # Get all command sets that were saved by the current user
         user_profile = UserProfile.objects.filter(user=user)[0]
         saved_commands = user_profile.saved_command_set.all()
+        # Sorted by last updated
         context['saved_commands'] = saved_commands
+        # Sorted by popularity
+        context['saved_commands_sorted_by_popularity'] = sorted(saved_commands, key=lambda x: x.visited_num, reverse=True)
+        # Sorted by number of upvotes
+        context['saved_commands_sorted_by_upvote'] = sorted(saved_commands, key=lambda x: x.upvote_num, reverse=True)
 
         # Get all tools that this user has saved a command set for
         saved_tools = []
