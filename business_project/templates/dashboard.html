@@ -29,12 +29,15 @@
         </div>
     </div>
     
-    <!-- Off canvas -->
-    <div class="d-flex flex-row">
-        <a class="custom-btn-wrapper" data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample">
-            <div class="custom-btn fw-semibold">Filter</div>
-        </a>
-        <a class="custom-btn-wrapper" href="/add_commands/"><div class="custom-btn fw-semibold ms-3">Create a new command set</div></a>
+    <!-- Off canvas filtering tool -->
+    <div class="d-flex flex-row mt-3">
+        <h2 class="my-auto" id="dashboard-table-title">Commands created by you</h2>
+        <div class="d-flex flex-row w-fit ms-auto">
+            <a class="custom-btn-wrapper" data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample">
+                <div class="custom-btn fw-semibold">Filter</div>
+            </a>
+            <a class="custom-btn-wrapper" href="/add_commands/"><div class="custom-btn fw-semibold ms-3">Create a new command set</div></a>
+        </div>
     </div>
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
@@ -55,8 +58,15 @@
                     <option value={% filter lower|cut:' ' %}{{tool.title}}{% endfilter %}>{{tool.title}}</option>
                     {% endfor %}
                 </select>
+                <label class="form-label mt-2">Ordered by: </label>
+                <select class="form-select" id="sorted-by-select">
+                    <option value="sorted-by-last-updated">Updated at (default)</option>
+                    <option value="sorted-by-upvote">Number of upvotes</option>
+                    <option value="sorted-by-popularity">Popularity</option>
+                </select>
                 <button type="submit" class="custom-btn">Apply</button>
             </form>
+            
         </div>
     </div>
 
@@ -65,25 +75,68 @@
         <thead class="bg-info text-light">
             <tr>
                 <th scope="col-6">Title</th>
-                <th scope="col-5">Stacks</th>
+                <th scope="col-4">Stacks</th>
                 <th scope="col-1">Upvote</th>
+                <th scope="col-1">View</th>
             </tr>
         </thead>
-        <tbody class="commands-created-data">
+        <tbody class="commands-created-data sorted-by-last-updated">
             {% for command_set in created_commands %}
             <tr>
-                <td class="fw-semibold col-7"><a href="/{{command_set.id}}/" class="dashboard-table-command-title">{{command_set.title}}</a></td>
+                <td class="fw-semibold col-6"><a href="/{{command_set.id}}/" class="dashboard-table-command-title">{{command_set.title}}</a></td>
                 <td class="col-4">{{command_set.display_tools}}</td>
-                <td class="col-1 text-center">{{command_set.upvote_num}}</td>
+                <td class="col-1">{{command_set.upvote_num}}</td>
+                <td class="col-1">{{command_set.visited_num}}</td>
             </tr>
             {% endfor %}
         </tbody>
-        <tbody class="commands-saved-data">
+        <tbody class="commands-created-data sorted-by-popularity">
+            {% for command_set in created_commands_sorted_by_popularity %}
+            <tr>
+                <td class="fw-semibold col-6"><a href="/{{command_set.id}}/" class="dashboard-table-command-title">{{command_set.title}}</a></td>
+                <td class="col-4">{{command_set.display_tools}}</td>
+                <td class="col-1">{{command_set.upvote_num}}</td>
+                <td class="col-1">{{command_set.visited_num}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tbody class="commands-created-data sorted-by-upvote">
+            {% for command_set in created_commands_sorted_by_upvote %}
+            <tr>
+                <td class="fw-semibold col-6"><a href="/{{command_set.id}}/" class="dashboard-table-command-title">{{command_set.title}}</a></td>
+                <td class="col-4">{{command_set.display_tools}}</td>
+                <td class="col-1">{{command_set.upvote_num}}</td>
+                <td class="col-1">{{command_set.visited_num}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tbody class="commands-saved-data sorted-by-last-updated">
             {% for command_set in saved_commands %}
             <tr>
-                <td class="fw-semibold col-7"><a href="/{{command_set.id}}/" class="dashboard-table-command-title">{{command_set.title}}</a></td>
+                <td class="fw-semibold col-6"><a href="/{{command_set.id}}/" class="dashboard-table-command-title">{{command_set.title}}</a></td>
                 <td class="col-4">{{command_set.display_tools}}</td>
-                <td class="col-1 text-center">{{command_set.upvote_num}}</td>
+                <td class="col-1">{{command_set.upvote_num}}</td>
+                <td class="col-1">{{command_set.visited_num}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tbody class="commands-saved-data sorted-by-popularity">
+            {% for command_set in saved_commands_sorted_by_popularity %}
+            <tr>
+                <td class="fw-semibold col-6"><a href="/{{command_set.id}}/" class="dashboard-table-command-title">{{command_set.title}}</a></td>
+                <td class="col-4">{{command_set.display_tools}}</td>
+                <td class="col-1">{{command_set.upvote_num}}</td>
+                <td class="col-1">{{command_set.visited_num}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tbody class="commands-saved-data sorted-by-upvote">
+            {% for command_set in saved_commands_sorted_by_upvote %}
+            <tr>
+                <td class="fw-semibold col-6"><a href="/{{command_set.id}}/" class="dashboard-table-command-title">{{command_set.title}}</a></td>
+                <td class="col-4">{{command_set.display_tools}}</td>
+                <td class="col-1">{{command_set.upvote_num}}</td>
+                <td class="col-1">{{command_set.visited_num}}</td>
             </tr>
             {% endfor %}
         </tbody>
