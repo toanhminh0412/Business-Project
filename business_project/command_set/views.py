@@ -112,15 +112,21 @@ class CommandSetAddView(LoginRequiredMixin, TemplateView):
     template_name = "command_set/add_page.html"
 
     def post(self,request):
+        # Check if all values in the form are set properly
         commands_form = CommandSetForm(request.POST)
+        # Valid form
         if commands_form.is_valid():
+            # Get data from form and create a new CommandSet instance
             commands_data = commands_form.cleaned_data
             new_command_set = CommandSet.objects.create(title=commands_data['title'], commands=commands_data['commands'], description=commands_data['description'], created_by=User.objects.get(id=request.session.get('user_id')))
             for tool in commands_data['tool']:
                 new_command_set.tool.add(tool)
             new_command_set.save()
+            # Redirect to homepage
             return redirect("/")
-        else: 
+        # Invalid form
+        else:
+            # Redirect to add page with an error message
             return render(request, self.template_name, {'all_tools': Tool.objects.all(), 'message': 'Please fill out the from properly'})
 
     def get_context_data(self, **kwargs):
