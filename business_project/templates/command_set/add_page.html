@@ -14,26 +14,27 @@
                 <div class="mb-3">
                     <label class="fw-semibold fs-4">Title</label>
                     <div class="text-muted form-label">Be specific and imagine you're providing these commands to another person</div>
-                    <input type="text" class="form-control fs-4" autocomplete="off" name="title" placeholder="e.g. Push code to a new Github repository">
+                    <input type="text" class="form-control fs-4" autocomplete="off" name="title" placeholder="e.g. Push code to a new Github repository" required maxlength="195">
                 </div>
                 <div class="mb-3">
                     <label class="fw-semibold fs-4">Commands</label>
                     <div class="text-muted form-label">Include the commands line by line. Make sure each command start with a '$' (this is automactically added every time you enter a new line)</div>
-                    <textarea class="form-control fs-5 commands-textarea" rows="10" name="commands"></textarea>
+                    <textarea class="form-control fs-5 commands-textarea" rows="10" name="commands" required maxlength="995"></textarea>
                 </div>
                 <div class="mb-3">
                     <label class="fw-semibold fs-4">Description</label>
                     <div class="text-muted form-label">Describe what the commands do and how they do it</div>
-                    <textarea class="form-control fs-5" rows="5" name="description" placeholder="Maximum 500 characters"></textarea>
+                    <textarea class="form-control fs-5" rows="5" name="description" placeholder="Maximum 500 characters" required maxlength="495"></textarea>
                 </div>
                 <div class="mb-3">
                     <label class="fw-semibold fs-4">Stacks</label>
-                    <div class="text-muted form-label">Select corresponding stacks for the commands. Hold Command (Mac) or Ctrl (Window) to select multiple.</div>
-                    <select class="form-select" multiple name="tool">
+                    <select class="form-select" multiple name="tool" required>
                         {% for tool in all_tools %}
                         <option value="{{tool.id}}">{{tool.title}}</option>
                         {% endfor %}
                     </select>
+                    <div class="text-muted form-label">Select corresponding stacks for the commands. Hold Command (Mac) or Ctrl (Window) to select multiple.</div>
+                    <div class="text-muted form-label">Hold Ctrl (Window) or Command (Mac) and click on selected ones to deselect those</div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
