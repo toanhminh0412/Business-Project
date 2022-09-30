@@ -12,10 +12,6 @@ Command sets:
 * Need to fix searching algorithm
 
 Working on:
-- Add ordering for table data:
-+ By number of upvotes
-+ By most recently created/saved
-+ By popularity
 
 - Add a search bar on top of the table, look for a command with a certain name within the table
 
