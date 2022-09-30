@@ -174,4 +174,29 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 if tool not in created_tools:
                     created_tools.append(tool)
         context['created_tools'] = created_tools
+
+        # Get all command sets that were saved by the current user
+        user_profile = UserProfile.objects.filter(user=user)[0]
+        saved_commands = user_profile.saved_command_set.all()
+        context['saved_commands'] = saved_commands
+
+        # Get all tools that this user has saved a command set for
+        saved_tools = []
+        for command in saved_commands:
+            for tool in command.tool.all():
+                if tool not in saved_tools:
+                    saved_tools.append(tool)
+        context['saved_tools'] = saved_tools
+
+        # Get the upvotes that user made
+        upvotes = Upvote.objects.filter(user=user)
+        context['upvotes'] = upvotes
+
+        # Get the downvotes that user made
+        downvotes = Downvote.objects.filter(user=user)
+        context['downvotes'] = downvotes
+
+        # Get all tools available in the application
+        context['all_tools'] = Tool.objects.all()
+
         return context

@@ -15,11 +15,11 @@
                 {{message}}
             </div>
         {% endif %}
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row mb-3">
             <h1 class="mt-2">Search something ...</h1>
-            <a class="add-commands-btn ms-auto mt-2" href="/add_commands/">Add command set</a>
+            <a class="custom-btn-wrapper ms-auto" href="/add_commands/"><div class="custom-btn fw-semibold">Create a new command set</div></a>
         </div>
-        <form class="search-bar d-flex flex-row" action="/" method="post">
+        <form class="search-bar d-flex flex-row shadow-md" action="/" method="post">
             {% csrf_token %}
             <input type="input" class="form-control fs-5 p-2" name="search-input" placeholder="Type a command or a task">
             <button type="submit" class="btn btn-primary px-4 fs-5">Search</button>

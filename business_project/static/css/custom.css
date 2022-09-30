@@ -41,6 +41,28 @@ body {
 }
 
 /*** Custom ***/
+.custom-btn {
+    margin-top: 20px;
+    background-color: #2596be;
+    border-radius: 4px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    border: 1px solid rgb(226 232 240);
+    padding: 10px 20px 10px 20px;
+    width: fit-content;
+    height: fit-content;
+    transition-duration: 0.1s;
+    cursor: default;
+    color: #fff;
+}
+
+.custom-btn:hover {
+    background-color: #154c79;
+}
+
+.custom-btn-wrapper {
+    text-decoration: none;
+}
+
 /* General container */
 .block-container {
     margin-top: 10px;
@@ -81,41 +103,48 @@ body {
     width: fit-content;
 }
 
-/* Dashboard container */
+/* Dashboard items */
+.dashboard-showcase {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
 .dashboard-container {
-    margin-top: 10px;
-    background-color: rgb(241 245 249);
-    border-radius: 10px;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    border: 1px solid rgb(226 232 240);
-    padding: 10px 20px 10px 20px;
-    transition-duration: 0.1s;
-    cursor: default;
-}
-
-.tool-container {
-    margin-top: 10px;
-    background-color: white;
+    width: 300px;
+    height: 300px;
+    background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     border: 1px solid rgb(226 232 240);
-    padding: 10px 20px 10px 20px;
-    transition-duration: 0.1s;
-    cursor: default;
-    width: 98%;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    margin-top: 2%;
 }
 
-.command-container {
-    background-color: rgb(209 250 229);
-    color: rgb(5 150 105);
-    padding: 15px 20px 15px 20px;
+.dashboard-container-text,
+.dashboard-container-text div {
+    width: fit-content;
 }
 
-.command-container:hover {
-    background-color: rgb(236 253 245);
-    box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+.dashboard-container-text {
+    margin: auto;
+    margin-top: 30%;
+}
+
+.dashboard-table {
+    width: 60%;
+} 
+
+.dashboard-table-command-title {
+    text-decoration: none;
+    color: #000;
+}
+
+.dashboard-table-command-title:hover {
+    text-decoration: underline;
 }
 
 /* New page */
@@ -152,4 +181,9 @@ body {
 
 .add-commands-btn:hover {
     text-decoration: underline;
+}
+
+/* Box shadow */
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }

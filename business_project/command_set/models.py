@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 # A technology tool (Git, Kubernestes, Docker, etc)
 class Tool(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique=True)
 
     class Meta:
         ordering = ['title']
