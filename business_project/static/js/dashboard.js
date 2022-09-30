@@ -3,22 +3,27 @@ const displayTableData = () => {
     $('#dashboard-filter-form').submit(function(e) {
         e.preventDefault();
         
+        // Display command sets in a certain order
+        const sortedBy = $('#sorted-by-select').val();
+        $('.commands-created-data').hide();
+        $('.commands-saved-data').hide();
+    
+
         // Display type of table data (commands created or saved by user)
         const dataShown = $('#display-table-data').val();
         let dataElement = null;
         if (dataShown === "1") {
-            $('.commands-created-data').show();
-            $('.commands-saved-data').hide();
-            dataElement = $('.commands-created-data')
+            dataElement = $(`.commands-created-data.${sortedBy}`)
+            dataElement.show();
+            $('#dashboard-table-title').text('Commands created by you');
         } else if (dataShown === "2") {
-            $('.commands-created-data').hide();
-            $('.commands-saved-data').show();
-            dataElement = $('.commands-saved-data')
+            dataElement = $(`.commands-saved-data.${sortedBy}`)
+            dataElement.show();
+            $('#dashboard-table-title').text('Commands saved by you');
         }
 
         // Display commands that have selected stacks
         const stacksChosen = $('#display-stacks').val();
-        // console.log(stacksChosen);
         const dataRows = dataElement.children();
         if (stacksChosen.length > 0) {
             for (let i = 0; i < dataRows.length; i++) {
@@ -46,8 +51,10 @@ const displayTableData = () => {
 }
 
 const init = () => {
-    // Hide other table datas and display commands created by the user by default
+    // Only show commands created by users sorted in last updated by default
     $('.commands-saved-data').hide();
+    $('.commands-created-data').hide();
+    $('.commands-created-data.sorted-by-last-updated').show();
 
     displayTableData();
 }
