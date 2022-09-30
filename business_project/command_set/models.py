@@ -22,6 +22,10 @@ class CommandSet(models.Model):
     tool = models.ManyToManyField(Tool)
     upvote_num = models.IntegerField(default=0)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    # The last time the command set was created/saved
+    updated_at = models.DateTimeField(auto_now=True)
+    # Number of times the command set is visited by users
+    visited_num = models.IntegerField(default=0)
 
     # For each word in the command set, there is a corresponding points of appearance for that word
     # Save the points for all words, which is later used in the search engine
@@ -78,7 +82,7 @@ class CommandSet(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['title']
+        ordering = ['updated_at']
         db_table = "command_set"
 
 # Basically an User that has more abilities
