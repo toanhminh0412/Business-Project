@@ -63,7 +63,7 @@ body {
     text-decoration: none;
 }
 
-/* General container */
+/*** General container ***/
 .block-container {
     margin-top: 10px;
     background-color: white;
@@ -103,7 +103,7 @@ body {
     width: fit-content;
 }
 
-/* Dashboard items */
+/*** Dashboard items ***/
 .dashboard-showcase {
     display: flex;
     flex-direction: row;
@@ -147,6 +147,7 @@ body {
     text-decoration: underline;
 }
 
+/*** Utilities ***/
 /* New page */
 .page {
     margin-top: 100px;
