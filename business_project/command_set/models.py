@@ -17,8 +17,7 @@ class Tool(models.Model):
 # A set of commands to do something
 class CommandSet(models.Model):
     title = models.CharField(max_length=200, null=False, blank=False)
-    commands = models.CharField(max_length=1000, null=False, blank=False)
-    description = models.CharField(max_length=500, null=True, blank=True)
+    commands = models.CharField(max_length=1500, null=False, blank=False)
     tool = models.ManyToManyField(Tool)
     upvote_num = models.IntegerField(default=0)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
@@ -39,8 +38,7 @@ class CommandSet(models.Model):
         # Tool: 5 points
         # Title: 3 points
         # Command: 2 points
-        # Description: 1 point
-        evaluate_string = tool_str * 5 + (self.title + " ") * 3 + (self.commands.replace("$", " ") + " ") * 2 + self.description if self.description else (self.title + " ") * 3 + (self.commands + " ") * 2
+        evaluate_string = tool_str * 5 + (self.title + " ") * 3 + (self.commands.replace("$", " ") + " ") * 2 + (self.commands + " ") * 2
         evaluate_string = evaluate_string.lower()
         self.wordindex_set.all().delete()
         for word in evaluate_string.split():
