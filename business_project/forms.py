@@ -17,4 +17,4 @@ class SignupForm(forms.Form):
 class CommandSetForm(forms.ModelForm):
     class Meta:
         model = CommandSet
-        fields = ['title', 'commands', 'description', 'tool']
+        fields = ['title', 'commands', 'tool']
