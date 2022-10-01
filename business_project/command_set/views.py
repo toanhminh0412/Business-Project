@@ -118,7 +118,7 @@ class CommandSetAddView(LoginRequiredMixin, TemplateView):
         if commands_form.is_valid():
             # Get data from form and create a new CommandSet instance
             commands_data = commands_form.cleaned_data
-            new_command_set = CommandSet.objects.create(title=commands_data['title'], commands=commands_data['commands'], description=commands_data['description'], created_by=User.objects.get(id=request.session.get('user_id')))
+            new_command_set = CommandSet.objects.create(title=commands_data['title'], commands=commands_data['commands'], created_by=User.objects.get(id=request.session.get('user_id')))
             for tool in commands_data['tool']:
                 new_command_set.tool.add(tool)
             new_command_set.save()
