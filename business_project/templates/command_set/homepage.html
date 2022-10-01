@@ -30,11 +30,6 @@
                 <a class="block-container-wrapper" href="{{cs.id}}/">
                     <div class="block-container item-container">
                         <div class="fs-5 fw-bolder">{{cs.title}}</div>
-                        <div class="mt-2">
-                            {% for command in cs.display_commands %}
-                                <div>$ {{command}}</div>
-                            {% endfor %}
-                        </div>
                     </div>
                 </a>
             {% endfor %}
