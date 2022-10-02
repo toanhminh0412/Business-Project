@@ -9,7 +9,7 @@
                     {{message}}
                 </div>
             {% endif %}
-            <form class="block-container" action="/add_commands/" method="post">
+            <form class="block-container" id="add_commands_form" action="/add_commands/" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label class="fw-semibold fs-4">Title</label>
