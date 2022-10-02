@@ -118,6 +118,8 @@ class CommandSetAddView(LoginRequiredMixin, TemplateView):
         if commands_form.is_valid():
             # Get data from form and create a new CommandSet instance
             commands_data = commands_form.cleaned_data
+            commands_data['commands'] = commands_data['commands'].replace("\n", "<br/>\n").replace("\t", "&emsp;").replace("  ", "&ensp;").replace("    ", "&emsp;").replace("\r", "")
+            print(repr(commands_data['commands']))
             new_command_set = CommandSet.objects.create(title=commands_data['title'], commands=commands_data['commands'], created_by=User.objects.get(id=request.session.get('user_id')))
             for tool in commands_data['tool']:
                 new_command_set.tool.add(tool)
@@ -163,6 +165,8 @@ class CommandSetDetailView(DetailView):
         if command_set in user_profile.saved_command_set.all():
             context['user_saved'] = True
 
+        print(context['command_set'].commands)
+        context['commands'] = context['command_set'].commands
         return context
 
 # Dashboard is where users can manage the application activity
