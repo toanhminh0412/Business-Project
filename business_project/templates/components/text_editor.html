@@ -19,11 +19,13 @@
         <label class="fw-semibold fs-4">Commands</label>
         <div class="text-muted form-label">Include all the information (e.g. the commands, outputs, description, etc.) you need about the command set. Maximum 1000 characters.</div>
         <div class="text-muted form-label">Please use Markdown: <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Guide</a></div>
-        <div class="text-editor">
+        <button type="button" class="btn btn-primary btn-lg" id="commands-preview-btn">Preview</button>
+        <div class="text-editor mt-2">
             <div class="text-editor-textarea">
-                <textarea class="form-control fs-5" id="commands-textarea" rows="10" name="commands" required maxlength="995"></textarea>
+                <textarea class="form-control fs-5" id="commands-textarea" rows="10" name="commands" required maxlength="1495"></textarea>
             </div>
         </div>
+        <div class="commands-block"></div>
     </div>
     {% load static %}
     <!--Script-->
