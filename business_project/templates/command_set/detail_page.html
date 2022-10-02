@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load command_set_extra %}
 {% block title %}Command Set{% endblock %}
 {% block content %}
 <div class="row">
@@ -15,8 +16,10 @@
 
             <h3 class="mt-4">Upvotes: <span id="upvote-num">{{command_set.upvote_num}}</span></h3>
             <div class="fs-4 fw-semibold mt-3">Commands:</div>
-            <div class="code-block">{{command_set.commands}}</div>
-
+            <div class="commands-block">
+                <md-block>{{commands|strip_double_quotes|safe}}</md-block>
+                {% comment %}<md-block>mysite/<br/>&ensp;&ensp;manage.py<br/>&ensp;&ensp;mysite/<br/>&ensp;&ensp;&ensp;&ensp;__init__.py<br/>&ensp;&ensp;&ensp;&ensp;settings.py<br/>&ensp;&ensp;&ensp;&ensp;urls.py<br/>&ensp;&ensp;&ensp;&ensp;asgi.py<br/>&ensp;&ensp;&ensp;&ensp;wsgi.py</md-block>{% endcomment %}
+            </div>
             <div class="fs-4 fw-semibold mt-3">Stacks:</div>
             <div>{{command_set.display_tools}}</div>
             
