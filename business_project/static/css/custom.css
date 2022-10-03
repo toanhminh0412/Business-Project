@@ -147,6 +147,17 @@ body {
     text-decoration: underline;
 }
 
+/*** Custom tags ***/
+.code-block {
+    padding: 7.5px;
+    margin: 10px auto 5px auto;
+    width: 95%;
+    height: fit-content;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid rgb(203 213 225);
+}
+
 /*** Utilities ***/
 /* New page */
 .page {
