@@ -29,18 +29,20 @@ const allowCommandsPreview = () => {
         .replaceAll("\n", "<br/>\n")
         .replaceAll("\t", "&emsp;")
         .replaceAll("  ", "&ensp;")
-        .replaceAll("    ", "&emsp;");
+        .replaceAll("    ", "&emsp;")
+        .replaceAll("<md-code>", "</md-block><div class='code-block'>")
+        .replaceAll("</md-code>", "</div><md-block>");
         console.log("MD: " + JSON.stringify(commandsText));
 
         // Switch preview mode to editing mode
         if ($(this).hasClass('showing')) {
             commandsTextarea.show();
-            commandsPreviewBlock.empty();
+            $('#preview-block').empty();
             commandsPreviewBlock.hide();
             $(this).removeClass('showing');
             $(this).text("Preview");
         } else {    // Switch editing mode to preview mode
-            commandsPreviewBlock.append(`<md-block>${commandsText}</md-block>`);
+            document.querySelector('#preview-block').mdContent = commandsText;
             commandsPreviewBlock.show();
             commandsTextarea.hide();
             $(this).addClass('showing');
