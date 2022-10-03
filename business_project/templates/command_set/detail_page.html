@@ -17,8 +17,25 @@
             <h3 class="mt-4">Upvotes: <span id="upvote-num">{{command_set.upvote_num}}</span></h3>
             <div class="fs-4 fw-semibold mt-3">Commands:</div>
             <div class="commands-block">
-                <md-block>{{commands|strip_double_quotes|safe}}</md-block>
-                {% comment %}<md-block>mysite/<br/>&ensp;&ensp;manage.py<br/>&ensp;&ensp;mysite/<br/>&ensp;&ensp;&ensp;&ensp;__init__.py<br/>&ensp;&ensp;&ensp;&ensp;settings.py<br/>&ensp;&ensp;&ensp;&ensp;urls.py<br/>&ensp;&ensp;&ensp;&ensp;asgi.py<br/>&ensp;&ensp;&ensp;&ensp;wsgi.py</md-block>{% endcomment %}
+                <md-block id="commands-display" data-commands='{{commands|strip_double_quotes|safe}}'>{{commands|strip_double_quotes|safe}}</md-block>
+                {% comment %}<md-block>
+                    From the command line, **cd** into a directory where you’d like to store your code, then run the following command:<br/>
+                </md-block>
+                <div class='code-block'>$ django-admin startproject mysite</div>
+                <md-block>
+                This will create a **mysite** directory in your current directory.<br/>
+                Let’s look at what **startproject** created:<br/>
+                </md-block>
+                <div class='code-block'>&emsp;mysite/<br/>
+                &ensp;&ensp;&emsp;&emsp;&emsp;&emsp;manage.py<br/>
+                &ensp;&ensp;&emsp;&emsp;&emsp;&emsp;mysite/<br/>
+                &ensp;&ensp;&ensp;&ensp;&emsp;&emsp;&emsp;&emsp;\_\_init\_\_.py<br/>
+                &ensp;&ensp;&ensp;&ensp;&emsp;&emsp;&emsp;&emsp;settings.py<br/>
+                &ensp;&ensp;&ensp;&ensp;&emsp;&emsp;&emsp;&emsp;urls.py<br/>
+                &ensp;&ensp;&ensp;&ensp;&emsp;&emsp;&emsp;&emsp;asgi.py<br/>
+                &ensp;&ensp;&ensp;&ensp;&emsp;&emsp;&emsp;&emsp;wsgi.py<br/>
+                </div>
+                <md-block></md-block>{% endcomment %}
             </div>
             <div class="fs-4 fw-semibold mt-3">Stacks:</div>
             <div>{{command_set.display_tools}}</div>
@@ -56,4 +73,5 @@
 {% block script %}
     {% load static %}
     <script src="{% static 'js/command_set/detail_page.js' %}"></script>
+    <script src="{% static 'js/command_set/add_page.js' %}"></script>
 {% endblock script %}
