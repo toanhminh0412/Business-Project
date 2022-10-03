@@ -9,5 +9,13 @@ Working on:
 - May be add a global search bar to navigation bar
 
 ## Currently
-- Make code block work
-- Probably will need to make a new tag
+- Fix MD display on detail page's code block
+- Improve text editor on add command page
+- Add visibility to commands
+- Add command editing and deleting functionality
+- Add other user profiles?
+
+## Later
+- Deploy
+- Fix searching algorithm
+- Start to populate the database
