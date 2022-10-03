@@ -118,7 +118,7 @@ class CommandSetAddView(LoginRequiredMixin, TemplateView):
         if commands_form.is_valid():
             # Get data from form and create a new CommandSet instance
             commands_data = commands_form.cleaned_data
-            commands_data['commands'] = commands_data['commands'].replace("\n", "<br/>\n").replace("\t", "&emsp;").replace("  ", "&ensp;").replace("    ", "&emsp;").replace("\r", "")
+            commands_data['commands'] = commands_data['commands'].replace("\n", "<br/>\n").replace("\t", "&emsp;").replace("  ", "&ensp;").replace("    ", "&emsp;").replace("\r", "").replace("<md-code>", "</md-block><div class='code-block'>").replace("</md-code>", "</div><md-block>")
             print(repr(commands_data['commands']))
             new_command_set = CommandSet.objects.create(title=commands_data['title'], commands=commands_data['commands'], created_by=User.objects.get(id=request.session.get('user_id')))
             for tool in commands_data['tool']:
@@ -137,7 +137,7 @@ class CommandSetAddView(LoginRequiredMixin, TemplateView):
         return context
 
 # Users view a single command set on this page
-class CommandSetDetailView(DetailView):
+class CommandSetDetailView(LoginRequiredMixin, DetailView):
     model = CommandSet
     pk_url_kwarg = 'commandset_id'
     template_name = 'command_set/detail_page.html'
@@ -165,8 +165,9 @@ class CommandSetDetailView(DetailView):
         if command_set in user_profile.saved_command_set.all():
             context['user_saved'] = True
 
-        print(context['command_set'].commands)
+        print(repr(context['command_set'].commands))
         context['commands'] = context['command_set'].commands
+        context['commands'] = context['commands'].replace('<md-block><br/>', '<md-block>')
         return context
 
 # Dashboard is where users can manage the application activity
